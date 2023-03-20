@@ -11,7 +11,82 @@ streams:
       - eid
     schema_loader:
       type: InlineSchemaLoader
-      schema: {}
+      schema:
+        $schema: http://json-schema.org/schema#
+        properties:
+          activeCtaIds:
+            items:
+              type: integer
+            type: array
+          address:
+            type:
+              - 'null'
+              - string
+          address2:
+            type: 'null'
+          canvassedByCtaId:
+            type: 'null'
+          city:
+            type:
+              - 'null'
+              - string
+          createdMts:
+            type: integer
+          currentCtaId:
+            type: integer
+          eid:
+            type: string
+          email:
+            type:
+              - 'null'
+              - string
+          firstName:
+            type: string
+          lastName:
+            type: string
+          lastUsedEmpowerMts:
+            type:
+              - integer
+              - 'null'
+          myCampaignVanId:
+            type:
+              - integer
+              - 'null'
+          notes:
+            type:
+              - 'null'
+              - string
+          parentEid:
+            type:
+              - 'null'
+              - string
+          phone:
+            type:
+              - 'null'
+              - string
+          regionId:
+            type:
+              - integer
+              - 'null'
+          relationship:
+            type: string
+          role:
+            type: string
+          state:
+            type:
+              - 'null'
+              - string
+          updatedMts:
+            type:
+              - integer
+              - 'null'
+          vanId:
+            type: 'null'
+          zip:
+            type:
+              - 'null'
+              - string
+        type: object
     retriever:
       type: SimpleRetriever
       requester:
@@ -41,7 +116,203 @@ streams:
       - id
     schema_loader:
       type: InlineSchemaLoader
-      schema: {}
+      schema:
+        $schema: http://json-schema.org/schema#
+        properties:
+          actionType:
+            type: string
+          activeUntilMts:
+            type:
+              - integer
+              - 'null'
+          advancedTargetingFilter:
+            anyOf:
+              - type: 'null'
+              - properties:
+                  assignedTo:
+                    type: 'null'
+                  city:
+                    type: 'null'
+                  contactRelationship:
+                    type: 'null'
+                  contactSource:
+                    type: 'null'
+                  currentCta:
+                    type: 'null'
+                  hasContactInfo:
+                    type: 'null'
+                  hasContactsCanvassedByCtaIds:
+                    type: 'null'
+                  hasContactsInState:
+                    type: 'null'
+                  hasContactsWithTags:
+                    type: 'null'
+                  hasCtaResponse:
+                    type: 'null'
+                  hasUsedEmpower:
+                    type: 'null'
+                  hasVolunteerChildren:
+                    type: 'null'
+                  joinDate:
+                    type: 'null'
+                  lastActiveDate:
+                    type: 'null'
+                  listSize:
+                    type: 'null'
+                  outreachTask:
+                    type: 'null'
+                  region:
+                    anyOf:
+                      - type: 'null'
+                      - items:
+                          type: integer
+                        type: array
+                  role:
+                    type: 'null'
+                  state:
+                    type: 'null'
+                  tag:
+                    type: 'null'
+                  zipCode:
+                    type: 'null'
+                type: object
+          associatedElectionId:
+            type: 'null'
+          conversationStarter:
+            type:
+              - 'null'
+              - string
+          createdMts:
+            type: integer
+          customRecruitmentPromptText:
+            type: 'null'
+          defaultPriorityLabelKey:
+            type: 'null'
+          description:
+            type: string
+          hasAssignableTurfs:
+            type: boolean
+          id:
+            type: integer
+          instructionsHtml:
+            type: string
+          isBatchImportDone:
+            type: boolean
+          isGeocodingDone:
+            type: boolean
+          isIntroCta:
+            type: boolean
+          isPersonal:
+            type: boolean
+          name:
+            type: string
+          organizationId:
+            type: integer
+          prioritizations:
+            type: array
+          prompts:
+            items:
+              properties:
+                answerInputType:
+                  type: string
+                answers:
+                  items:
+                    properties:
+                      answerText:
+                        type: string
+                      id:
+                        type: integer
+                      isDeleted:
+                        type: boolean
+                      ordering:
+                        type: integer
+                      promptId:
+                        type: integer
+                      vanId:
+                        type:
+                          - integer
+                          - 'null'
+                    type: object
+                  type: array
+                ctaId:
+                  type: integer
+                dependsOnInitialDispositionResponse:
+                  type: 'null'
+                id:
+                  type: integer
+                isDeleted:
+                  type: boolean
+                ordering:
+                  type: integer
+                promptText:
+                  type: string
+                vanId:
+                  type:
+                    - integer
+                    - 'null'
+              type: object
+            type: array
+          questions:
+            items:
+              properties:
+                key:
+                  type: integer
+                options:
+                  items:
+                    type: string
+                  type: array
+                surveyQuestionVanId:
+                  type: integer
+                text:
+                  type: string
+                type:
+                  type: string
+                values:
+                  items:
+                    type: integer
+                  type: array
+              type: object
+            type: array
+          recruitmentQuestionType:
+            type: string
+          recruitmentTrainingUrl:
+            type: 'null'
+          regionIds:
+            items:
+              type: integer
+            type: array
+          scheduledLaunchTimeMts:
+            type: integer
+          shareables:
+            items:
+              properties:
+                displayLabel:
+                  type: string
+                type:
+                  type: string
+                url:
+                  type: string
+              type: object
+            type: array
+          shouldDisplayEarlyVotingPollingLocation:
+            type: boolean
+          shouldDisplayElectionDayPollingLocation:
+            type: boolean
+          shouldUseAdvancedTargeting:
+            type: boolean
+          spokeCampaignId:
+            type: 'null'
+          textCanvassingType:
+            type:
+              - 'null'
+              - string
+          turfCuttingType:
+            type: 'null'
+          updatedMts:
+            type:
+              - integer
+              - 'null'
+        type: object
     retriever:
       type: SimpleRetriever
       requester:
@@ -70,7 +341,64 @@ streams:
     primary_key: []
     schema_loader:
       type: InlineSchemaLoader
-      schema: {}
+      schema:
+        $schema: http://json-schema.org/schema#
+        properties:
+          answerIdsByPromptId:
+            properties:
+              '13197':
+                items:
+                  type: integer
+                type: array
+              '13198':
+                items:
+                  type: integer
+                type: array
+              '13303':
+                items:
+                  type: integer
+                type: array
+              '13304':
+                items:
+                  type: integer
+                type: array
+              '13683':
+                items:
+                  type: integer
+                type: array
+              '13684':
+                items:
+                  type: integer
+                type: array
+              '13800':
+                items:
+                  type: integer
+                type: array
+              '13805':
+                items:
+                  type: integer
+                type: array
+            type: object
+          answers:
+            properties:
+              '1':
+                type: string
+              '10':
+                type: string
+              '11':
+                type: string
+            type: object
+          contactedMts:
+            type: integer
+          ctaId:
+            type: integer
+          notes:
+            type:
+              - 'null'
+              - string
+          profileEid:
+            type: string
+        type: object
     retriever:
       type: SimpleRetriever
       requester:
@@ -100,7 +428,30 @@ streams:
       - id
     schema_loader:
       type: InlineSchemaLoader
-      schema: {}
+      schema:
+        $schema: http://json-schema.org/schema#
+        properties:
+          ctaId:
+            type: integer
+          description:
+            type:
+              - 'null'
+              - string
+          id:
+            type: integer
+          inviteCode:
+            type:
+              - 'null'
+              - string
+          inviteCodeCreatedMts:
+            type:
+              - integer
+              - 'null'
+          name:
+            type: string
+          organizationId:
+            type: integer
+        type: object
     retriever:
       type: SimpleRetriever
       requester:
@@ -129,7 +480,44 @@ streams:
     primary_key: []
     schema_loader:
       type: InlineSchemaLoader
-      schema: {}
+      schema:
+        $schema: http://json-schema.org/schema#
+        properties:
+          organizerEid:
+            type: string
+          outreachContactMode:
+            type:
+              - 'null'
+              - string
+          outreachCreatedMts:
+            type: integer
+          outreachCtaProgress:
+            type:
+              - 'null'
+              - string
+          outreachCurrentCtaId:
+            type: integer
+          outreachDidGetResponse:
+            type: boolean
+          outreachEngagementLevel:
+            type: 'null'
+          outreachNote:
+            type:
+              - 'null'
+              - string
+          outreachScheduledFollowUpMts:
+            type: 'null'
+          outreachSnoozeType:
+            type:
+              - 'null'
+              - string
+          outreachSnoozeUntilMts:
+            type:
+              - integer
+              - 'null'
+          targetEid:
+            type: string
+        type: object
     retriever:
       type: SimpleRetriever
       requester:
@@ -158,7 +546,13 @@ streams:
     primary_key: []
     schema_loader:
       type: InlineSchemaLoader
-      schema: {}
+      schema: 
+        $schema: http://json-schema.org/schema#
+        properties:
+          profileEid:
+            type: string
+          tagId:
+            type: integer
     retriever:
       type: SimpleRetriever
       requester:
