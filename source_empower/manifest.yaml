@@ -1,0 +1,198 @@
+version: 0.28.0
+type: DeclarativeSource
+check:
+  type: CheckStream
+  stream_names:
+    - profiles
+streams:
+  - type: DeclarativeStream
+    name: profiles
+    primary_key:
+      - eid
+    schema_loader:
+      type: InlineSchemaLoader
+      schema: {}
+    retriever:
+      type: SimpleRetriever
+      requester:
+        type: HttpRequester
+        url_base: https://api.getempower.com/v1/
+        path: export
+        http_method: GET
+        request_parameters: {}
+        request_headers:
+          secret-token: '{{ config[''api_key''] }}'
+        request_body_json: {}
+        authenticator:
+          type: ApiKeyAuthenticator
+          api_token: '{{ config[''api_key''] }}'
+          header: '{{ config[''secret_token''] }}'
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path:
+            - profiles
+      paginator:
+        type: NoPagination
+  - type: DeclarativeStream
+    name: ctas
+    primary_key:
+      - id
+    schema_loader:
+      type: InlineSchemaLoader
+      schema: {}
+    retriever:
+      type: SimpleRetriever
+      requester:
+        type: HttpRequester
+        url_base: https://api.getempower.com/v1/
+        path: export
+        http_method: GET
+        request_parameters: {}
+        request_headers:
+          secret-token: '{{ config[''api_key''] }}'
+        request_body_json: {}
+        authenticator:
+          type: ApiKeyAuthenticator
+          api_token: '{{ config[''api_key''] }}'
+          header: '{{ config[''secret_token''] }}'
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path:
+            - ctas
+      paginator:
+        type: NoPagination
+  - type: DeclarativeStream
+    name: ctaResults
+    primary_key: []
+    schema_loader:
+      type: InlineSchemaLoader
+      schema: {}
+    retriever:
+      type: SimpleRetriever
+      requester:
+        type: HttpRequester
+        url_base: https://api.getempower.com/v1/
+        path: export
+        http_method: GET
+        request_parameters: {}
+        request_headers:
+          secret-token: '{{ config[''api_key''] }}'
+        request_body_json: {}
+        authenticator:
+          type: ApiKeyAuthenticator
+          api_token: '{{ config[''api_key''] }}'
+          header: '{{ config[''secret_token''] }}'
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path:
+            - ctaResults
+      paginator:
+        type: NoPagination
+  - type: DeclarativeStream
+    name: regions
+    primary_key:
+      - id
+    schema_loader:
+      type: InlineSchemaLoader
+      schema: {}
+    retriever:
+      type: SimpleRetriever
+      requester:
+        type: HttpRequester
+        url_base: https://api.getempower.com/v1/
+        path: export
+        http_method: GET
+        request_parameters: {}
+        request_headers:
+          secret-token: '{{ config[''api_key''] }}'
+        request_body_json: {}
+        authenticator:
+          type: ApiKeyAuthenticator
+          api_token: '{{ config[''api_key''] }}'
+          header: '{{ config[''secret_token''] }}'
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path:
+            - regions
+      paginator:
+        type: NoPagination
+  - type: DeclarativeStream
+    name: outreachEntries
+    primary_key: []
+    schema_loader:
+      type: InlineSchemaLoader
+      schema: {}
+    retriever:
+      type: SimpleRetriever
+      requester:
+        type: HttpRequester
+        url_base: https://api.getempower.com/v1/
+        path: export
+        http_method: GET
+        request_parameters: {}
+        request_headers:
+          secret-token: '{{ config[''api_key''] }}'
+        request_body_json: {}
+        authenticator:
+          type: ApiKeyAuthenticator
+          api_token: '{{ config[''api_key''] }}'
+          header: '{{ config[''secret_token''] }}'
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path:
+            - outreachEntries
+      paginator:
+        type: NoPagination
+  - type: DeclarativeStream
+    name: profileOrganizationTags
+    primary_key: []
+    schema_loader:
+      type: InlineSchemaLoader
+      schema: {}
+    retriever:
+      type: SimpleRetriever
+      requester:
+        type: HttpRequester
+        url_base: https://api.getempower.com/v1/
+        path: export
+        http_method: GET
+        request_parameters: {}
+        request_headers:
+          secret-token: '{{ config[''api_key''] }}'
+        request_body_json: {}
+        authenticator:
+          type: ApiKeyAuthenticator
+          api_token: '{{ config[''api_key''] }}'
+          header: '{{ config[''secret_token''] }}'
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path:
+            - profileOrganizationTags
+      paginator:
+        type: NoPagination
+spec:
+  connection_specification:
+    $schema: http://json-schema.org/draft-07/schema#
+    type: object
+    required:
+      - api_key
+    properties:
+      api_key:
+        type: string
+        title: API Key
+        airbyte_secret: true
+    additionalProperties: true
+  documentation_url: https://example.org
+  type: Spec

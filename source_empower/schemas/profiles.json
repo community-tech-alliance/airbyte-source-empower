@@ -1,0 +1,114 @@
+{
+   "$schema": "http://json-schema.org/schema#",
+   "properties": {
+     "activeCtaIds": {
+       "items": {
+         "type": "integer"
+       },
+       "type": "array"
+     },
+     "address": {
+       "type": [
+         "null",
+         "string"
+       ]
+     },
+     "address2": {
+       "type": "null"
+     },
+     "canvassedByCtaId": {
+       "type": "null"
+     },
+     "city": {
+       "type": [
+         "null",
+         "string"
+       ]
+     },
+     "createdMts": {
+       "type": "integer"
+     },
+     "currentCtaId": {
+       "type": "integer"
+     },
+     "eid": {
+       "type": "string"
+     },
+     "email": {
+       "type": [
+         "null",
+         "string"
+       ]
+     },
+     "firstName": {
+       "type": "string"
+     },
+     "lastName": {
+       "type": "string"
+     },
+     "lastUsedEmpowerMts": {
+       "type": [
+         "integer",
+         "null"
+       ]
+     },
+     "myCampaignVanId": {
+       "type": [
+         "integer",
+         "null"
+       ]
+     },
+     "notes": {
+       "type": [
+         "null",
+         "string"
+       ]
+     },
+     "parentEid": {
+       "type": [
+         "null",
+         "string"
+       ]
+     },
+     "phone": {
+       "type": [
+         "null",
+         "string"
+       ]
+     },
+     "regionId": {
+       "type": [
+         "integer",
+         "null"
+       ]
+     },
+     "relationship": {
+       "type": "string"
+     },
+     "role": {
+       "type": "string"
+     },
+     "state": {
+       "type": [
+         "null",
+         "string"
+       ]
+     },
+     "updatedMts": {
+       "type": [
+         "integer",
+         "null"
+       ]
+     },
+     "vanId": {
+       "type": "null"
+     },
+     "zip": {
+       "type": [
+         "null",
+         "string"
+       ]
+     }
+   },
+   "type": "object"
+ }
