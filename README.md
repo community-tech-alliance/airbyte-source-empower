@@ -1,82 +1,99 @@
-# Empower Source
+# [HOW TO] Low-Code Airbyte Source Development
 
-This is the repository for the Empower configuration based source connector.
-For information about how to use this connector within Airbyte, see [the documentation](https://docs.airbyte.com/integrations/sources/empower).
+# Overview
 
-## Local development
+Airbyte recently(?) released a new tool for developing custom source integrations. Basically all you have to do is fill out a configuration YAML with the details for your API, and the `YamlDeclarativeSource` class parses it and spins out the connector for you. It’s pretty neat!
 
-#### Building via Gradle
-You can also build the connector in Gradle. This is typically used in CI and not needed for your development workflow.
+# Steps
 
-To build using Gradle, from the Airbyte repository root, run:
-```
-./gradlew :airbyte-integrations:connectors:source-empower:build
-```
+Official Airbyte documentation is here: [Low-code CDK Overview](https://docs.airbyte.com/connector-development/config-based/low-code-cdk-overview/) 
 
-#### Create credentials
-**If you are a community contributor**, follow the instructions in the [documentation](https://docs.airbyte.com/integrations/sources/empower)
-to generate the necessary credentials. Then create a file `secrets/config.json` conforming to the `source_empower/spec.yaml` file.
-Note that any directory named `secrets` is gitignored across the entire Airbyte repo, so there is no danger of accidentally checking in sensitive information.
-See `integration_tests/sample_config.json` for a sample config file.
+But obviously I prefer my own documentation, see below:
 
-**If you are an Airbyte core member**, copy the credentials in Lastpass under the secret name `source empower test creds`
-and place them into `secrets/config.json`.
+## Initialize a new Github repository
 
-### Locally running the connector docker image
+1. Create an empty Github repository. Make it public.
+2. Copy in the files from a different YamlDeclarativeSource (such as `empower`)
+3. Find-and-replace `empower` => `your_new_source_name`
+4. Replace the contents of manifest.yaml
 
-#### Build
-First, make sure you build the latest Docker image:
-```
-docker build . -t airbyte/source-empower:dev
-```
+## Fill out the config YAML
 
-You can also build the connector image via Gradle:
-```
-./gradlew :airbyte-integrations:connectors:source-empower:airbyteDocker
-```
-When building via Gradle, the docker image name and tag, respectively, are the values of the `io.airbyte.name` and `io.airbyte.version` `LABEL`s in
-the Dockerfile.
+1. Navigate to `/connector-builder` (manually add that to the URL for the webserver - it's real, I promise!)
+2. Follow the steps in the UI for configuring your new connector
+3. For each stream:
+    1. Set up the connection
+    2. Click “Test”
+    3. Click “Detected schema” - this might ask you if you want to update a blank schema with the detected schema, which you do. It should look something like this:
 
-#### Run
-Then run any of the connector commands as follows:
-```
-docker run --rm airbyte/source-empower:dev spec
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-empower:dev check --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-empower:dev discover --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/integration_tests:/integration_tests airbyte/source-empower:dev read --config /secrets/config.json --catalog /integration_tests/configured_catalog.json
-```
-## Testing
+![alt_text](images/image1.png "image_tooltip")
 
-#### Acceptance Tests
-Customize `acceptance-test-config.yml` file to configure tests. See [Connector Acceptance Tests](https://docs.airbyte.com/connector-development/testing-connectors/connector-acceptance-tests-reference) for more information.
-If your connector requires to create or destroy resources for use during acceptance tests create fixtures for it and place them inside integration_tests/acceptance.py.
+4. Download the config YAML by navigating to the lower-left corner of the screen:
 
-To run your integration tests with Docker, run:
-```
-./acceptance-test-docker.sh
-```
+![alt_text](images/image2.png "image_tooltip")
 
-### Using gradle to run tests
-All commands should be run from airbyte project root.
-To run unit tests:
+5. Replace the contents of `manifest.yaml` with the config you just exported. Neat!
+
+
+## Testing and Deployment
+
+This procedure is the same as it’s ever been, but worth re-documenting here:
+
+
+### Test Locally
+
+1. In the Terminal, cd into `source-my-new-connector` (the new repository you just created)
+2. Create a secrets/config.json file containing any required fields in the connector spec. This will look something like:
+
 ```
-./gradlew :airbyte-integrations:connectors:source-empower:unitTest
+{
+ "api_key": "foo"
+}
 ```
-To run acceptance and custom integration tests:
+3. MAKE SURE THIS FILE IS IGNORED BY GITHUB! We don’t love pushing secrets to Github!
+4. In your terminal, you can run `docker` commands to test your new source connector locally:
+
 ```
-./gradlew :airbyte-integrations:connectors:source-empower:integrationTest
+docker run --rm ghcr.io/community-tech-alliance/source-empower:0.0.2 spec
+
+docker run --rm -v $(pwd)/secrets:/secrets ghcr.io/community-tech-alliance/source-empower:0.0.2 check --config /secrets/config.json
+
+docker run --rm -v $(pwd)/secrets:/secrets ghcr.io/community-tech-alliance/source-empower:0.0.2 discover --config /secrets/config.json
+
+docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/integration_tests:/integration_tests ghcr.io/community-tech-alliance/source-empower:0.0.2 read --config /secrets/config.json --catalog /integration_tests/configured_catalog.json
+
 ```
 
-## Dependency Management
-All of your dependencies should go in `setup.py`, NOT `requirements.txt`. The requirements file is only used to connect internal Airbyte dependencies in the monorepo for local development.
-We split dependencies between two groups, dependencies that are:
-* required for your connector to work need to go to `MAIN_REQUIREMENTS` list.
-* required for the testing need to go to `TEST_REQUIREMENTS` list
+5. If your connector is running successfully, time to deploy it to the Internet!
 
-### Publishing a new version of the connector
-You've checked out the repo, implemented a million dollar feature, and you're ready to share your changes with the world. Now what?
-1. Make sure your changes are passing unit and integration tests.
-1. Bump the connector version in `Dockerfile` -- just increment the value of the `LABEL io.airbyte.version` appropriately (we use [SemVer](https://semver.org/)).
-1. Create a Pull Request.
-1. Pat yourself on the back for being an awesome contributor.
-1. Someone from Airbyte will take a look at your PR and iterate with you to merge it into master.
+
+### Deploy to Github Container Registry
+
+1. Fire up Docker on your machine
+2. In the Terminal, cd into `source-my-new-connector` (the new repository you just created)
+3. Build an image with a tag that will link it to Github Container Registry:
+
+```docker build . -t ghcr.io/community-tech-alliance/source-my-new-connector:dev```
+
+4. Push that image to GHCR:
+
+```docker push ghcr.io/community-tech-alliance/source-my-new-connector:dev```
+
+5. Go to `Packages` in Github and find the image you just pushed. Once you have found it:
+    1. Link the package to your new repository
+    2. Change visibility to `Public` - this is necessary for Airbyte to download the image.
+
+### Test the New Source in Airbyte
+
+1. In the Airbyte web server, go to “Settings” and then “Sources”:
+
+![alt_text](images/image3.png "image_tooltip")
+
+2. Fill out the details for your the source connector you just deployed:
+
+![alt_text](images/image4.png "image_tooltip")
+
+3. Create a Source in Airbyte using your new connector
+4. Create a Connection using your new Source and the default BigQuery destination
+5. Try running the sync
+6. 🙏
