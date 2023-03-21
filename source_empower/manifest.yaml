@@ -335,7 +335,7 @@ streams:
           field_path:
             - ctas
       paginator:
-        type: NoPagination
+        type: NoPagination      
   - type: DeclarativeStream
     name: ctaResults
     primary_key: []
@@ -575,7 +575,7 @@ streams:
           field_path:
             - profileOrganizationTags
       paginator:
-        type: NoPagination
+        type: NoPagination               
 spec:
   connection_specification:
     $schema: http://json-schema.org/draft-07/schema#
